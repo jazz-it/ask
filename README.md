@@ -12,9 +12,9 @@ OPENAI_API_KEY = "YOUR_API_KEY_GOES_HERE"
 ```
 
 Create your KEY here: https://beta.openai.com/account/api-keys
-
-## Available keywords:
 ------
+## Available keywords:
+
 * HELP   - displays help
 * ADD    - adds the previous answer to your bookmark
 * LIST   - displays your bookmark
