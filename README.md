@@ -12,7 +12,8 @@ OPENAI_API_KEY = "YOUR_API_KEY_GOES_HERE"
 ```
 
 Create your KEY here: https://beta.openai.com/account/api-keys
-------
+
+
 ## Available keywords:
 
 * HELP   - displays help
@@ -22,6 +23,6 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * NOCODE - enables two empty lines to trigger submission (default)
 * EXIT   - same as any other input less than 7 characters long ends the application
 
-Hitting ENTER after two empty lines in a NOCODE mode is a handy cross-platform equivalent 
+Hitting ENTER after **two empty lines** in a NOCODE mode is a handy cross-platform equivalent 
 for `[Ctrl+Z]`+`[ENTER]` in Windows, or `[Ctrl+D]` in Linux/Mac terminals. It basically 
 terminates standard input by outputting EOF (end of file).
