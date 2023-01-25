@@ -24,5 +24,5 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * EXIT   - same as any other input less than 7 characters long ends the application
 
 Hitting ENTER after **two empty lines** in a NOCODE mode is a handy cross-platform equivalent 
-for `[Ctrl+Z]`+`[ENTER]` in Windows, or `[Ctrl+D]` in Linux/Mac terminals. It basically 
+for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals. It basically 
 terminates standard input by outputting EOF (end of file).
