@@ -1,0 +1,165 @@
+#! /usr/bin/env python
+
+import openai  # python-openai
+import os, sys
+import readline
+
+from datetime import datetime
+import config
+
+# Modify the values of the strings below to fit your needs.
+
+yes = ['yes', 'ye', 'y']
+no = ['no', 'n', '']
+
+class msg:
+    CODE = "SUBMIT = [Ctrl+Z]+[ENTER] or [Ctrl+D]"
+    NOCODE = "SUBMIT = two empty lines or [Ctrl+Z]+[ENTER] or [Ctrl+D]"
+    WARNING = "ATTENTION!! You saved a bookmark without displaying it.\nType LIST to view your bookmark."
+    CONFIRM = "Exit anyway [y/N]?"
+    LOST = "Your bookmark has been lost. Bye."
+    WRONG = "Please use [y]es or [N]o."
+    EXIT = "Bye. If you'll have more questions, don't hesitate to ask."
+    RESUME = "Resuming to your questions..."
+    ADD = "Successfully added to bookmark."
+    LIST = "Bookmark:"
+    NOW = "Time"
+    ELAPSED = "Thinking:"
+    SORRY = "I need more time to think but my CPUs seem quite busy now."
+    ERROR = "Oops! Something went wrong. Please try again in a few minutes."
+
+# Don't change anything below this line
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def handle_EOF(event):
+    event.cli.set_return_value("")
+    event.cli.set_exited()
+
+def openAIQuery(ask):
+    response = openai.Completion.create(
+      model="text-davinci-003",
+      prompt=ask,
+      temperature=0.4,
+      max_tokens=400,
+      top_p=1,
+      frequency_penalty=0,
+      presence_penalty=0
+    )
+    if 'choices' in response:
+        if len(response['choices']) > 0:
+            answer = response['choices'][0]['text']
+        else:
+            answer = msg.SORRY
+    else:
+        answer = msg.SORRY
+    return answer
+
+file_path = os.path.abspath(__file__) # full path of this script
+dir_path = os.path.dirname(file_path) # full path of the directory of this script
+help_file_path = os.path.join(dir_path,'help.txt') # absolute file path to display help
+
+mistake = False
+code = False
+pass_counter = 0
+bookmark = ""
+bookmark_displayed = 0
+
+OPENAI_API_KEY = config.OPENAI_API_KEY
+openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
+
+while True:
+    print("[" + bcolors.BOLD + "ask" + bcolors.ENDC + "] ▾")
+    ask = ""
+    double_enter = 0
+    pass_counter += 1 
+    while True:
+        try:
+            line = input()
+            ask += line + '\n'
+            if (len(line.rstrip())<1):
+              double_enter += 1
+            else:
+              double_enter = 0
+            if (len(line)>=3 and line[-1]=="?") or (code==False and double_enter>=2):
+              break
+        except EOFError:
+            break
+    ask = ask.strip()
+    askKeywordCheck = ask.replace(" ", "").lower()
+
+    # Check for special keywords
+    if len(askKeywordCheck)<=6:
+      if (pass_counter > 1) and (askKeywordCheck == "add"):
+        bookmark += response
+        print(bcolors.WARNING + msg.ADD + "\n" + bcolors.ENDC)
+        continue
+      elif (pass_counter > 1) and (askKeywordCheck == "list"):
+        bookmark_displayed += 1
+        repeat = len(msg.LIST)
+        print(bcolors.OKBLUE + '═' * repeat + bcolors.ENDC)
+        print(bcolors.WARNING + msg.LIST + bcolors.ENDC)
+        print(bcolors.OKGREEN + bookmark.rstrip() + bcolors.ENDC)
+        print(bcolors.OKBLUE + '═' * repeat + bcolors.ENDC)
+        continue
+      elif (askKeywordCheck == "help"):
+        f = open(help_file_path, 'r', encoding='utf-8')
+        content = f.read()
+        print(bcolors.WARNING + content + bcolors.ENDC)
+        f.close()
+        continue
+      elif (askKeywordCheck == "code"):
+        code = True
+        print(bcolors.WARNING + msg.CODE + bcolors.ENDC)
+        continue
+      elif (askKeywordCheck == "nocode"):
+        code = False
+        print(bcolors.WARNING + msg.NOCODE + bcolors.ENDC)
+        continue
+      else:
+        if (len(bookmark)>0) and (bookmark_displayed==0):
+          print(bcolors.FAIL + msg.WARNING + "\n" + bcolors.ENDC)
+          end = bcolors.FAIL + bcolors.BOLD + msg.CONFIRM + " " + bcolors.ENDC
+          while True:
+              choice = input(end).lower()
+              if choice in yes:
+                  print(bcolors.WARNING + msg.LOST + "\n" + bcolors.ENDC)
+                  exit()
+              elif choice in no:
+                  mistake = True
+                  break
+              else:
+                  print(bcolors.WARNING + msg.WRONG + bcolors.ENDC)
+        if not mistake:
+          print(bcolors.WARNING + msg.EXIT + "\n" + bcolors.ENDC)
+          exit()
+        else:
+          print(bcolors.WARNING + msg.RESUME + bcolors.ENDC)
+          mistake = False
+          continue
+
+    before = datetime.now()
+
+    try:
+      response = openAIQuery(ask)
+      print(bcolors.OKGREEN + response + bcolors.ENDC)
+    except Exception as e:
+      print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)
+      continue
+
+    now = datetime.now()
+    elapsed = (datetime.now() - before).total_seconds()
+    elapsed = "~ 0" if (elapsed < 0.01) else '{0:.2f}'.format(elapsed)
+    current_time = now.strftime("%H:%M:%S")
+    repeat = len(msg.NOW) + len(current_time) + len(msg.ELAPSED) + len(elapsed) + 8
+    print(bcolors.OKBLUE + msg.NOW + " " + str(current_time) + "  ·  " + msg.ELAPSED + " " + str(elapsed) + "s" + bcolors.ENDC)
+    print(bcolors.OKBLUE + '─' * repeat + bcolors.ENDC)
