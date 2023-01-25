@@ -4,7 +4,7 @@ ChatGPT in your terminal
 The application accepts multiline inputs until the sentence ends with a questiton mark.
 Editting multiline inputs is available by using cursor keys on your keyboard.
 
-Before using this application, you should create a file `Config.py` in the same directory with
+Before using this application, you should create a file `config.py` in the same directory with
 this script and put just the following content in it:
 
 ```
