@@ -41,10 +41,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def handle_EOF(event):
-    event.cli.set_return_value("")
-    event.cli.set_exited()
-
 def openAIQuery(ask):
     response = openai.Completion.create(
       model="text-davinci-003",
