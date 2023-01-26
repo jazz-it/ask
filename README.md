@@ -34,7 +34,8 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 
 The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet.
 
-> The bookmark could be stored to an external file, so your research could be saved even after each session expires.
+> The bookmark could be stored into an external file, \
+> so your research could be saved even after each session expires.
 
 Unlike some other scripts, this one allows you to enter more than just one line in your question, it simplifies the input so that it is enough to press ENTER 2x to trigger the question submission, which can be turned off in the special `CODE` mode.
 
