@@ -27,6 +27,12 @@ class msg:
     ELAPSED = "Thinking:"
     SORRY = "I need more time to think but my CPUs seem quite busy now."
     ERROR = "Oops! Something went wrong. Please try again in a few minutes."
+    TOP = "^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^"
+    NOTE = "Write your note below"
+    BTM = "----------------8<-------------[ cut here ]------------------"
+    SAVE = "Your bookmark has been saved to output.txt"
+    GEN = "Generated on"
+    FNF = "Oops! Check if your output.txt file is being edited somewhere..."
 
 # Don't change anything below this line
 
@@ -63,10 +69,11 @@ def openAIQuery(ask):
 file_path = os.path.abspath(__file__) # full path of this script
 dir_path = os.path.dirname(file_path) # full path of the directory of this script
 help_file_path = os.path.join(dir_path,'help.txt') # absolute file path to display help
+output_file_path = os.path.join(dir_path,'output.txt') # absolute file path to display help
 
+added = False
 mistake = False
 code = False
-pass_counter = 0
 bookmark = ""
 bookmark_displayed = 0
 
@@ -76,8 +83,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
 while True:
     print("[" + bcolors.BOLD + "ask" + bcolors.ENDC + "] ▾")
     ask = ""
+    note = ""
     double_enter = 0
-    pass_counter += 1 
+
     while True:
         try:
             line = input()
@@ -90,28 +98,63 @@ while True:
               break
         except EOFError:
             break
+
     ask = ask.strip()
     askKeywordCheck = ask.replace(" ", "").lower()
 
     # Check for special keywords
     if len(askKeywordCheck)<=6:
-      if (pass_counter > 1) and (askKeywordCheck == "add"):
+      if (askKeywordCheck == "add"):
         bookmark += response
         print(bcolors.WARNING + msg.ADD + "\n" + bcolors.ENDC)
+        mistake = True
+        added = True
         continue
-      elif (pass_counter > 1) and (askKeywordCheck == "list"):
+      elif (added == True) and (askKeywordCheck == "list"):
         bookmark_displayed += 1
         repeat = len(msg.LIST)
         print(bcolors.OKBLUE + '═' * repeat + bcolors.ENDC)
         print(bcolors.WARNING + msg.LIST + bcolors.ENDC)
         print(bcolors.OKGREEN + bookmark.rstrip() + bcolors.ENDC)
         print(bcolors.OKBLUE + '═' * repeat + bcolors.ENDC)
+        mistake = False
+        continue
+      elif (askKeywordCheck == "note"):
+        bookmark += "\n\n" + msg.TOP + "\n"
+        print("[" + bcolors.OKCYAN + bcolors.BOLD + msg.NOTE + bcolors.ENDC + "] ▾")
+        while True:
+          try:
+              note = input()
+              note = note.strip()
+              bookmark += note + "\n"
+              if (len(note)<1):
+                double_enter += 1
+              else:
+                double_enter = 0
+              if (code==False and double_enter>=2):
+                bookmark = bookmark.rstrip() + "\n"
+                bookmark += msg.BTM + "\n\n"
+                break
+          except EOFError:
+              bookmark += msg.BTM + "\n\n"
+              break
         continue
       elif (askKeywordCheck == "help"):
         f = open(help_file_path, 'r', encoding='utf-8')
         content = f.read()
         print(bcolors.WARNING + content + bcolors.ENDC)
         f.close()
+        continue
+      elif (askKeywordCheck == "save"):
+        now = datetime.now()
+        current_time = now.strftime("%d.%m.%Y %H:%M:%S")
+        print(bcolors.WARNING + msg.SAVE + bcolors.ENDC)
+        try:
+            with open(output_file_path, 'a+', encoding='utf-8') as f:
+                f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + "▲▲▲\n")
+        except IOError:
+            print(bcolors.WARNING + msg.FNF + bcolors.ENDC)
+        mistake = False
         continue
       elif (askKeywordCheck == "code"):
         code = True
@@ -140,7 +183,6 @@ while True:
           exit()
         else:
           print(bcolors.WARNING + msg.RESUME + bcolors.ENDC)
-          mistake = False
           continue
 
     before = datetime.now()

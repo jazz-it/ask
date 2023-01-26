@@ -3,8 +3,10 @@ Available keywords:
 HELP   - displays this help
 ADD    - adds the previous answer to your bookmark
 LIST   - displays your bookmark
+NOTE   - adds a custom text to your bookmark
 CODE   - disables two empty lines to trigger submission
 NOCODE - enables two empty lines to trigger submission (default)
+SAVE   - saves the entire bookmark to output.txt
 EXIT   - same as any other input less than 7 characters long ends the application
 
 Hitting ENTER after two empty lines in a NOCODE mode is a handy cross-platform equivalent 
