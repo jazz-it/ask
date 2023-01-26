@@ -28,12 +28,16 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * SAVE   - saves the entire bookmark to `output.txt`
 * EXIT   - same as any other input less than 7 characters long ends the application
 
-Hitting ENTER after **two empty lines** in a `NOCODE` mode is a handy cross-platform equivalent 
-for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals. It basically 
-terminates standard input by outputting EOF (end of file).
+> Hitting ENTER after **two empty lines** in a `NOCODE` mode is a handy \
+> cross-platform equivalent for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals.\
+> It basically terminates standard input by outputting EOF (end of file).
 
-The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet. The bookmark could be stored to an external file, so your research could be saved even after each session expires.
+The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet.
 
-Unlike some other scripts, this one allows you to enter more than just one line in your question, it simplifies the input so that it is enough to press ENTER 2x to trigger the question submission, which can be turned off in the special `CODE` mode. Each line can be edited separately before sending using the cursor keys while asking a question.
+> The bookmark could be stored to an external file, so your research could be saved even after each session expires.
 
-It is important to be aware that ChatGPT via API mode does not offer the possibility of contextual conversation, i.e. previous answers have no contextual significance in the current question, so you may want to use the conversation history with the help of the up/down cursor keys more often.
+Unlike some other scripts, this one allows you to enter more than just one line in your question, it simplifies the input so that it is enough to press ENTER 2x to trigger the question submission, which can be turned off in the special `CODE` mode.
+
+> Be aware that using ChatGPT via API does not offer any possibility of contextual conversation, \
+> i.e. previous answers have no contextual significance in the current question, so you may want to use \
+> the conversation history with the help of the up/down cursor keys more often.
