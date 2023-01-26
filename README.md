@@ -18,7 +18,6 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 
 
 ## Available keywords:
-
 * HELP   - displays help
 * ADD    - adds the previous answer to your bookmark
 * LIST   - displays your bookmark
@@ -32,6 +31,8 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 > cross-platform equivalent for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals.\
 > It basically terminates standard input by outputting EOF (end of file).
 
+
+## Advantages:
 The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet.
 
 > The bookmark could be stored into an external file, \
@@ -42,3 +43,39 @@ Unlike some other scripts, this one allows you to enter more than just one line 
 > Be aware that using ChatGPT via API does not offer any possibility of contextual conversation, \
 > i.e. previous answers have no contextual significance in the current question, so you may want to use \
 > the conversation history with the help of the up/down cursor keys more often.
+
+
+## Output:
+Here's an example of a generated `output.txt`:
+
+<code>
+Alert, Nunavut, Canada.
+
+^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^
+I need to come up with a nice title here.
+----------------8<-------------[ cut here ]------------------
+
+
+
+Alert, Nunavut, Canada is an amazing place with a unique history and culture. Located in the northernmost part of the country, Alert is the northernmost permanently inhabited place in the world. This remote community is home to a population of just over five hundred people, and is the northernmost settlement on the planet.
+
+Alert is a fascinating place with a unique history. It was founded in 1950 as a weather station and has since served as a research station for the Canadian government. It is now the home of the Canadian Forces Station Alert, a military base that is used for surveillance and communication purposes. Despite its remote location, Alert is connected to the rest of the world through satellite communications.
+
+The culture of Alert is also unique. The population is comprised of Inuit, Cree, and Dene people. The Inuit are the original inhabitants of the area, and their culture is still very much alive in the community. The Inuit have a deep connection to the land, and their culture is reflected in the traditional clothing, food, and language of the community.
+
+Alert is also home to some amazing wildlife. The area is home to polar bears, Arctic foxes, caribou, and many other species of animals. The Arctic is also home to a variety of birds, including snow geese, loons, and ptarmigans. The area is also home to a wide variety of fish, including Arctic char, cod, and salmon.
+
+Alert is an amazing place with a unique history and culture. Despite its remote location, the community is connected to the rest of the world through satellite communications. The culture of the community is reflective of the Inuit, Cree, and Dene people who call it home. The area is also home to a variety of wildlife, and is a great place for wildlife watching.
+
+Alert is a place of beauty and wonder. It is a reminder of the importance of preserving the environment and respecting the
+
+There are approximately 20 towns in the world with more than 1 million people that were founded within the last 100 years.
+
+^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^
+Reminder: find out more about those cities.
+----------------8<-------------[ cut here ]------------------
+
+
+
+▲▲▲ Generated on 26.01.2023 18:52:09▲▲▲
+</code>
