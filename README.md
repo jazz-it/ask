@@ -24,8 +24,8 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * NOTE   - adds a custom text to your bookmark
 * CODE   - disables two empty lines to trigger submission
 * NOCODE - enables two empty lines to trigger submission (default)
-* SAVE   - saves the entire bookmark to `output.txt`
-* EXIT   - same as any other input less than 7 characters long ends the application
+* SAVE   - saves an entire bookmark to `output.txt`
+* EXIT   - same as any other input less than 7 characters long - ends the application
 
 > Hitting ENTER after **two empty lines** in a `NOCODE` mode is a handy \
 > cross-platform equivalent for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals.\
