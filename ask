@@ -151,7 +151,7 @@ while True:
         print(bcolors.WARNING + msg.SAVE + bcolors.ENDC)
         try:
             with open(output_file_path, 'a+', encoding='utf-8') as f:
-                f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + "▲▲▲\n")
+                f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + " ▲▲▲\n")
         except IOError:
             print(bcolors.WARNING + msg.FNF + bcolors.ENDC)
         mistake = False
