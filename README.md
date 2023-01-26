@@ -14,7 +14,7 @@ OPENAI_API_KEY = "YOUR_API_KEY_GOES_HERE"
 Create your KEY here: https://beta.openai.com/account/api-keys
 
 
-![ask](https://user-images.githubusercontent.com/411471/214705092-63a3a2d7-b969-4fdb-ae83-24df16fbce0f.gif)
+![ask1](https://user-images.githubusercontent.com/411471/214927725-c3bc8ce8-7577-4c6c-81fc-2870f73d7ceb.gif)
 
 
 ## Available keywords:
