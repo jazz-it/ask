@@ -37,7 +37,7 @@ The biggest advantage of using this application is speed, as opposed to the orig
 > The bookmark could be stored into an external file, \
 > so your research could be saved even after each session expires.
 
-Unlike some other scripts, this one allows you to enter more than just one line in your question, it simplifies the input so that it is enough to press ENTER 2x to trigger the question submission, which can be turned off in the special `CODE` mode.
+Unlike some other scripts, this one allows you to enter more than just one line in your question, it simplifies the input so that it is enough to create two empty lines to trigger the question submission, which can be turned off in the special `CODE` mode.
 
 > Be aware that using ChatGPT via API does not offer any possibility of contextual conversation, \
 > i.e. previous answers have no contextual significance in the current question, so you may want to use \
