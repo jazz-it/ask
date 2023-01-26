@@ -48,7 +48,9 @@ Unlike some other scripts, this one allows you to enter more than just one line 
 ## Output:
 Here's an example of a generated `output.txt`:
 
-<code>Alert, Nunavut, Canada.
+
+<code>
+Alert, Nunavut, Canada.
 
 ^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^
 I need to come up with a nice title here.
