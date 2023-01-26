@@ -15,7 +15,7 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+Z]+[ENTER] or [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+Z]+[ENTER] or [Ctrl+D]"
-    WARNING = "ATTENTION!! You saved a bookmark without displaying it.\nType LIST to view your bookmark."
+    WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     LOST = "Your bookmark has been lost. Bye."
     WRONG = "Please use [y]es or [N]o."
