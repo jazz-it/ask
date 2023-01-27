@@ -6,15 +6,13 @@ import os, sys
 from datetime import datetime
 import config
 
-if sys.platform.startswith("linux"):  # could be "linux", "linux2", "linux3", ...
-    # linux
-    import readline
-elif sys.platform == "darwin":
-    # MAC OS X
-    import readline
-elif os.name == "nt":
+if os.name == "nt":
     # Windows, Cygwin, etc. (either 32-bit or 64-bit)
     import pyreadline3
+else:
+    # sys.platform.startswith("linux"):  # could be "linux", "linux2", "linux3", ...
+    # sys.platform == "darwin":          # MAC OS X
+    import readline
     
 # Modify the values of the strings below to fit your needs.
 
