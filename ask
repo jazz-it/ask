@@ -2,11 +2,20 @@
 
 import openai  # python-openai
 import os, sys
-import readline
 
 from datetime import datetime
 import config
 
+if sys.platform.startswith("linux"):  # could be "linux", "linux2", "linux3", ...
+    # linux
+    import readline
+elif sys.platform == "darwin":
+    # MAC OS X
+    import readline
+elif os.name == "nt":
+    # Windows, Cygwin, etc. (either 32-bit or 64-bit)
+    import pyreadline3
+    
 # Modify the values of the strings below to fit your needs.
 
 yes = ['yes', 'ye', 'y']
@@ -30,9 +39,9 @@ class msg:
     TOP = "^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^"
     NOTE = "Write your note below"
     BTM = "----------------8<-------------[ cut here ]------------------"
-    SAVE = "Your bookmark has been saved to output.txt"
+    SAVE = "Your bookmark has been moved to output.txt"
     GEN = "Generated on"
-    FNF = "Oops! Check if your output.txt file is being edited somewhere..."
+    E404 = "Oops! Check if your output.txt file is being edited somewhere..."
 
 # Don't change anything below this line
 
@@ -152,9 +161,10 @@ while True:
         try:
             with open(output_file_path, 'a+', encoding='utf-8') as f:
                 f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + " ▲▲▲\n")
+                mistake = False
+                bookmark = ""
         except IOError:
-            print(bcolors.WARNING + msg.FNF + bcolors.ENDC)
-        mistake = False
+            print(bcolors.WARNING + msg.E404 + bcolors.ENDC)
         continue
       elif (askKeywordCheck == "code"):
         code = True
