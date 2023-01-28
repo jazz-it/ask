@@ -20,8 +20,8 @@ yes = ['yes', 'ye', 'y']
 no = ['no', 'n', '']
 
 class msg:
-    CODE = "SUBMIT = [Ctrl+Z]+[ENTER] or [Ctrl+D]"
-    NOCODE = "SUBMIT = two empty lines or [Ctrl+Z]+[ENTER] or [Ctrl+D]"
+    CODE = "SUBMIT = [Ctrl+D]"
+    NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     LOST = "Your bookmark has been lost. Bye."
@@ -40,6 +40,10 @@ class msg:
     SAVE = "Your bookmark has been moved to output.txt"
     GEN = "Generated on"
     E404 = "Oops! Check if your output.txt file is being edited somewhere..."
+
+    if os.name == "nt":
+      CODE = "SUBMIT = [Ctrl+Z]+[ENTER]"
+      NOCODE = "SUBMIT = two empty lines or [Ctrl+Z]+[ENTER]"
 
 # Don't change anything below this line
 
