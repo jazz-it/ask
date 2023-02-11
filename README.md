@@ -34,7 +34,7 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 
 ## LVL
 The "level of creativity" is actually the temperature argument for GPT-3, where  creativity of 5 means the temperature of 1. If you set the creativity value to 0 you will get no randomness. GPT-3 will always produce the same output for a given quesiton. On the other hand, setting the creativity value to 5 will deliver very inconsistent and sometimes interesting results. Even for open-ended tasks you should use a temperature value of 5 only in special situations. It is more common for story completion or idea generation to see temperature values between 4 and 5.
-The default creativity value is 2 (which equals temperature of 0.4).
+The default creativity value is 2 (which equals temperature of 0.4) and the creativity power bar is displayed within the prompt.
 
 ## Advantages:
 The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet.

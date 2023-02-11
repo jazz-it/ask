@@ -21,15 +21,15 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
-    LVL = "Level of creativity changed successfully!"
+    LVL = "Level of creativity changed successfully."
     NOLVL = "Wrong input! Accepted values are [0-5]."
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     LOST = "Your bookmark has been lost. Bye."
     WRONG = "Please use [y]es or [N]o."
-    EXIT = "Bye. If you'll have more questions, don't hesitate to ask."
-    RESUME = "Resuming to your questions..."
-    ADD = "Successfully added to bookmark."
+    EXIT = "Now check your 'output.txt' file if needed. Bye."
+    RESUME = "Ok! Resuming to your questions..."
+    ADD = "Bookmark is pending for an update.\nWhen ready, type SAVE to save it to a file."
     LIST = "Bookmark:"
     NOW = "Time"
     ELAPSED = "Thinking:"
@@ -40,7 +40,7 @@ class msg:
     BTM = "----------------8<-------------[ cut here ]------------------"
     SAVE = "Your bookmark has been moved to output.txt"
     GEN = "Generated on"
-    E404 = "Oops! Check if your output.txt file is being edited somewhere..."
+    E404 = "Oops! Check if your 'output.txt' file is open..."
 
     if os.name == "nt":
       CODE = "SUBMIT = [Ctrl+Z]+[ENTER]"
@@ -94,10 +94,21 @@ def validate_lvl(keyword):
 # Display the creativity level (0-5)
 def show_creativity(lvl):
   progress_bar = ""
-  for i in range(lvl):
-    progress_bar += "■"
-  for i in range(5-lvl):
-    progress_bar += "□"
+  for i in range(5):
+    if i==0 and lvl != 0:
+      progress_bar += bcolors.FAIL
+    elif i in (1,2) and lvl != 0:
+      progress_bar += bcolors.WARNING
+    elif i in (3,4) and lvl != 0:
+      progress_bar += bcolors.OKGREEN
+    else:
+      progress_bar += bcolors.FAIL
+      break
+
+    if i<lvl:
+      progress_bar += "▣"
+    else:
+      progress_bar += "▢"
   return progress_bar
 
 file_path = os.path.abspath(__file__) # full path of this script
@@ -118,7 +129,7 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
 
 while True:
-    prompt = "[" + bcolors.OKGREEN + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
+    prompt = "[" + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
     print(prompt)
     ask = ""
     note = ""
@@ -204,7 +215,7 @@ while True:
         code = False
         print(bcolors.WARNING + msg.NOCODE + bcolors.ENDC)
         continue
-      elif ((creativity_lvl is not False and (isinstance(creativity_lvl, int) and creativity_lvl < 0 or creativity_lvl > 5)) or not isinstance(creativity_lvl, int)):
+      elif (creativity_lvl is not False and (isinstance(creativity_lvl, int) and creativity_lvl < 0 or creativity_lvl > 5)):
         print(bcolors.FAIL + msg.NOLVL + bcolors.ENDC)
         continue
       elif (creativity_lvl is not False and isinstance(creativity_lvl, int) and 0 <= creativity_lvl <= 5):
