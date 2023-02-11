@@ -2,7 +2,6 @@
 
 import openai  # python-openai
 import os, sys
-
 from datetime import datetime
 import config
 
@@ -13,7 +12,7 @@ else:
     # sys.platform.startswith("linux"):  # could be "linux", "linux2", "linux3", ...
     # sys.platform == "darwin":          # MAC OS X
     import readline
-    
+
 # Modify the values of the strings below to fit your needs.
 
 yes = ['yes', 'ye', 'y']
@@ -22,6 +21,8 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
+    LVL = "Level of creativity changed successfully!"
+    NOLVL = "Wrong input! Accepted values are [0-5]."
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     LOST = "Your bookmark has been lost. Bye."
@@ -58,11 +59,11 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def openAIQuery(ask):
+def openAIQuery(ask, temp):
     response = openai.Completion.create(
       model="text-davinci-003",
       prompt=ask,
-      temperature=0.4,
+      temperature=temp,
       max_tokens=400,
       top_p=1,
       frequency_penalty=0,
@@ -77,6 +78,28 @@ def openAIQuery(ask):
         answer = msg.SORRY
     return answer
 
+# Validate the LVLn keyword, n=[0-5]
+def validate_lvl(keyword):
+    if not keyword.startswith('lvl'):
+        return False
+    try:
+        int_value = int(keyword[3:].strip())
+        if isinstance(int_value, int):
+            return int_value
+        else:
+            return False
+    except ValueError:
+        return False
+
+# Display the creativity level (0-5)
+def show_creativity(lvl):
+  progress_bar = ""
+  for i in range(lvl):
+    progress_bar += "■"
+  for i in range(5-lvl):
+    progress_bar += "□"
+  return progress_bar
+
 file_path = os.path.abspath(__file__) # full path of this script
 dir_path = os.path.dirname(file_path) # full path of the directory of this script
 help_file_path = os.path.join(dir_path,'help.txt') # absolute file path to display help
@@ -88,11 +111,15 @@ code = False
 bookmark = ""
 bookmark_displayed = 0
 
+lvl=2        # Default level of creativity, temperature=0.4
+temp=0.2*lvl # Default level of creativity, converted for openAIQuery()
+
 OPENAI_API_KEY = config.OPENAI_API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
 
 while True:
-    print("[" + bcolors.BOLD + "ask" + bcolors.ENDC + "] ▾")
+    prompt = "[" + bcolors.OKGREEN + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
+    print(prompt)
     ask = ""
     note = ""
     double_enter = 0
@@ -115,6 +142,7 @@ while True:
 
     # Check for special keywords
     if len(askKeywordCheck)<=6:
+      creativity_lvl = validate_lvl(askKeywordCheck)
       if (askKeywordCheck == "add"):
         bookmark += response
         print(bcolors.WARNING + msg.ADD + "\n" + bcolors.ENDC)
@@ -176,6 +204,14 @@ while True:
         code = False
         print(bcolors.WARNING + msg.NOCODE + bcolors.ENDC)
         continue
+      elif ((creativity_lvl is not False and (isinstance(creativity_lvl, int) and creativity_lvl < 0 or creativity_lvl > 5)) or not isinstance(creativity_lvl, int)):
+        print(bcolors.FAIL + msg.NOLVL + bcolors.ENDC)
+        continue
+      elif (creativity_lvl is not False and isinstance(creativity_lvl, int) and 0 <= creativity_lvl <= 5):
+        lvl = creativity_lvl
+        temp = round(0.2 * lvl, 1)
+        print(bcolors.WARNING + msg.LVL + bcolors.ENDC)
+        continue
       else:
         if (len(bookmark)>0) and (bookmark_displayed==0):
           print(bcolors.FAIL + msg.WARNING + "\n" + bcolors.ENDC)
@@ -200,7 +236,7 @@ while True:
     before = datetime.now()
 
     try:
-      response = openAIQuery(ask)
+      response = openAIQuery(ask, temp)
       print(bcolors.OKGREEN + response + bcolors.ENDC)
     except Exception as e:
       print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)

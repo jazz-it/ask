@@ -6,12 +6,24 @@ LIST   - displays your bookmark
 NOTE   - adds a custom text to your bookmark
 CODE   - disables two empty lines to trigger submission
 NOCODE - enables two empty lines to trigger submission (default)
+LVLn   - adjusts the level of creativity, `n` should be any integer [0-5]
 SAVE   - saves the entire bookmark to output.txt
 EXIT   - same as any other input less than 7 characters long ends the application
 
-Hitting ENTER after two empty lines in a NOCODE mode is a handy cross-platform equivalent 
-for [Ctrl+Z]+[ENTER] in Windows, or [Ctrl+D] in Linux/Mac terminals. It basically 
+## LVL
+The "level of creativity" is actually the temperature argument for GPT-3, where
+creativity of 5 means the temperature of 1. If you set the creativity value to 0
+you will get no randomness. GPT-3 will always produce the same output for a given
+quesiton. On the other hand, setting the creativity value to 5 will deliver very
+inconsistent and sometimes interesting results. Even for open-ended tasks you
+should use a temperature value of 5 only in special situations. It is more common
+for story completion or idea generation to see temperature values between 4 and 5.
+The default value is 2 (temperature: 0.4).
+
+## SUBMISSION
+Hitting ENTER after two empty lines in a NOCODE mode is a handy cross-platform equivalent
+for [Ctrl+Z]+[ENTER] in Windows, or [Ctrl+D] in Linux/Mac terminals. It basically
 terminates standard input by outputting EOF (end of file).
 
-The application accepts multiline inputs until the sentence ends with a questiton mark.
-Editting multiline inputs is available by using cursor keys on your keyboard.
+The application also accepts multiline inputs until the sentence ends with a
+questiton mark.

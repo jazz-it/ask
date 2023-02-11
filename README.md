@@ -24,6 +24,7 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * NOTE   - adds a custom text to your bookmark
 * CODE   - disables two empty lines to trigger submission
 * NOCODE - enables two empty lines to trigger submission (default)
+* LVLn   - adjusts the level of creativity, `n` should be any integer [0-5]
 * SAVE   - saves an entire bookmark to `output.txt`
 * EXIT   - same as any other input less than 7 characters long - ends the application
 
@@ -31,6 +32,9 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 > cross-platform equivalent for `Ctrl+Z`+`ENTER` in Windows, or `Ctrl+D` in Linux/Mac terminals.\
 > It basically terminates standard input by outputting EOF (end of file).
 
+## LVL
+The "level of creativity" is actually the temperature argument for GPT-3, where  creativity of 5 means the temperature of 1. If you set the creativity value to 0 you will get no randomness. GPT-3 will always produce the same output for a given quesiton. On the other hand, setting the creativity value to 5 will deliver very inconsistent and sometimes interesting results. Even for open-ended tasks you should use a temperature value of 5 only in special situations. It is more common for story completion or idea generation to see temperature values between 4 and 5.
+The default creativity value is 2 (which equals temperature of 0.4).
 
 ## Advantages:
 The biggest advantage of using this application is speed, as opposed to the original web interface. Also, whilst using this application you can combine several answers into one larger text using the `add` keyword. After you finish your research work, list all the saved parts added to bookmark by using `list`. Given that this bookmark mode of operation is dependent to each separate session, the application makes sure that you don't accidentally exit the program if you haven't display your bookmark or store it yet.
