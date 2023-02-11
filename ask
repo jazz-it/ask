@@ -21,15 +21,15 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
-    LVL = "Level of creativity changed successfully."
+    LVL = "Done."
     NOLVL = "Wrong input! Accepted values are [0-5]."
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     LOST = "Your bookmark has been lost. Bye."
     WRONG = "Please use [y]es or [N]o."
-    EXIT = "Now check your 'output.txt' file if needed. Bye."
-    RESUME = "Ok! Resuming to your questions..."
-    ADD = "Bookmark is pending for an update.\nWhen ready, type SAVE to save it to a file."
+    EXIT = "Now check your bookmark if needed. Bye."
+    RESUME = "Ok! Resuming..."
+    ADD = "Bookmark is pending for an update. SAVE it when ready."
     LIST = "Bookmark:"
     NOW = "Time"
     ELAPSED = "Thinking:"
@@ -40,7 +40,7 @@ class msg:
     BTM = "----------------8<-------------[ cut here ]------------------"
     SAVE = "Your bookmark has been moved to output.txt"
     GEN = "Generated on"
-    E404 = "Oops! Check if your 'output.txt' file is open..."
+    E404 = "Oops! Check if your bookmark file is open..."
 
     if os.name == "nt":
       CODE = "SUBMIT = [Ctrl+Z]+[ENTER]"
@@ -101,9 +101,8 @@ def show_creativity(lvl):
       progress_bar += bcolors.WARNING
     elif i in (3,4) and lvl != 0:
       progress_bar += bcolors.OKGREEN
-    else:
+    elif i==0 and lvl == 0:
       progress_bar += bcolors.FAIL
-      break
 
     if i<lvl:
       progress_bar += "▣"

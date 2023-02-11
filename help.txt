@@ -1,30 +1,25 @@
-Available keywords:
+1. Available keywords:
 ───────────────────
 HELP   - displays this help
 ADD    - adds the previous answer to your bookmark
 LIST   - displays your bookmark
 NOTE   - adds a custom text to your bookmark
-CODE   - disables two empty lines to trigger submission (2)
-NOCODE - enables two empty lines to trigger submission by default (2)
-LVLn   - adjusts the level of creativity, `n` should be any integer [0-5] (1)
+CODE   - disables two empty lines to trigger submission (3)
+NOCODE - enables two empty lines to trigger submission by default (3)
+LVLn   - adjusts the level of creativity, `n` should be any integer [0-5] (2)
 SAVE   - saves the entire bookmark to output.txt
 EXIT   - same as any other input less than 7 characters long ends the application
 
-1. LVL
-The "level of creativity" is actually the temperature argument for GPT-3, where
-creativity of 5 means the temperature of 1. If you set the creativity value to 0
-you will get no randomness. GPT-3 will always produce the same output for a given
-quesiton. On the other hand, setting the creativity value to 5 will deliver very
-inconsistent and sometimes interesting results. Even for open-ended tasks you
-should use a temperature value of 5 only in special situations. It is more common
-for story completion or idea generation to see temperature values between 4 and 5.
-The default value is 2 (temperature: 0.4) and the creativity power bar is displayed
-within the prompt.
+2. LVL
+───────────────────
+A lower temperature will stick to the facts and will lead to more predictable results,
+while a higher temperature will lead to more creative, but less accurate results.
+Default value: 2, allowed input: any value [0-5]
 
-2. SUBMISSION
+3. SUBMISSION
+───────────────────
 Hitting ENTER after two empty lines in a NOCODE mode is a handy cross-platform equivalent
-for [Ctrl+Z]+[ENTER] in Windows, or [Ctrl+D] in Linux/Mac terminals. It basically
-terminates standard input by outputting EOF (end of file).
+for [Ctrl+Z]+[ENTER] in Windows, or [Ctrl+D] in Linux/Mac shells. It basically terminates
+standard input by outputting EOF (end of file).
 
-The application also accepts multiline inputs until the sentence ends with a
-questiton mark.
+The application also accepts multiline inputs until the sentence ends with a questiton mark.
