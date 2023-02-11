@@ -95,14 +95,12 @@ def validate_lvl(keyword):
 def show_creativity(lvl):
   progress_bar = ""
   for i in range(5):
-    if i==0 and lvl != 0:
+    if i==0:
       progress_bar += bcolors.FAIL
     elif i in (1,2) and lvl != 0:
       progress_bar += bcolors.WARNING
     elif i in (3,4) and lvl != 0:
       progress_bar += bcolors.OKGREEN
-    elif i==0 and lvl == 0:
-      progress_bar += bcolors.FAIL
 
     if i<lvl:
       progress_bar += "▣"
