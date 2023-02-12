@@ -4,6 +4,8 @@ import openai  # python-openai
 import os, sys
 from datetime import datetime
 import config
+from typing import ContextManager, Optional
+from alive_progress import alive_bar, config_handler
 
 if os.name == "nt":
     # Windows, Cygwin, etc. (either 32-bit or 64-bit)
@@ -59,6 +61,19 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+def spinner(title: Optional[str] = None) -> ContextManager:
+    """
+    Context manager to display a spinner while a long-running process is running.
+
+    Usage:
+        with spinner("Fetching data..."):
+            fetch_data()
+
+    Args:
+        title: The title of the spinner. If None, no title will be displayed.
+    """
+    return alive_bar(monitor=None, stats=None, title=title)
+
 def openAIQuery(ask, temp):
     response = openai.Completion.create(
       model="text-davinci-003",
@@ -96,11 +111,11 @@ def show_creativity(lvl):
   progress_bar = ""
   for i in range(5):
     if i==0:
-      progress_bar += bcolors.FAIL
+      progress_bar += bcolors.OKGREEN
     elif i in (1,2) and lvl != 0:
       progress_bar += bcolors.WARNING
     elif i in (3,4) and lvl != 0:
-      progress_bar += bcolors.OKGREEN
+      progress_bar += bcolors.FAIL
 
     if i<lvl:
       progress_bar += "▣"
@@ -202,7 +217,7 @@ while True:
                 mistake = False
                 bookmark = ""
         except IOError:
-            print(bcolors.WARNING + msg.E404 + bcolors.ENDC)
+            print(bcolors.FAIL + msg.E404 + bcolors.ENDC)
         continue
       elif (askKeywordCheck == "code"):
         code = True
@@ -241,19 +256,22 @@ while True:
           print(bcolors.WARNING + msg.RESUME + bcolors.ENDC)
           continue
 
-    before = datetime.now()
+    if lvl in (0,1):
+      temp_color = bcolors.OKGREEN
+    elif lvl in (2,3):
+      temp_color = bcolors.WARNING
+    else:
+      temp_color = bcolors.FAIL
+    config_handler.set_global(enrich_print=False)
 
     try:
-      response = openAIQuery(ask, temp)
-      print(bcolors.OKGREEN + response + bcolors.ENDC)
+      with spinner("Thinking"):
+        response = openAIQuery(ask, temp)
+        print(temp_color + response + bcolors.ENDC)
+        print("")
     except Exception as e:
       print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)
       continue
 
-    now = datetime.now()
-    elapsed = (datetime.now() - before).total_seconds()
-    elapsed = "~ 0" if (elapsed < 0.01) else '{0:.2f}'.format(elapsed)
-    current_time = now.strftime("%H:%M:%S")
-    repeat = len(msg.NOW) + len(current_time) + len(msg.ELAPSED) + len(elapsed) + 8
-    print(bcolors.OKBLUE + msg.NOW + " " + str(current_time) + "  ·  " + msg.ELAPSED + " " + str(elapsed) + "s" + bcolors.ENDC)
-    print(bcolors.OKBLUE + '─' * repeat + bcolors.ENDC)
+    print(bcolors.OKBLUE + '─' * 64 + bcolors.ENDC)
+
