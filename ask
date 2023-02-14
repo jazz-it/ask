@@ -277,7 +277,6 @@ while True:
         response_strip = str(response.strip())
         print("")
         if response_strip.count('\n')>1:
-          # print(temp_color + response_strip + bcolors.ENDC)
           response_strip = '\n'.join(['\n'.join(textwrap.wrap(line, term_size.columns, break_long_words=False, replace_whitespace=False, drop_whitespace=False)) for line in response_strip.splitlines() if line.strip() != ' '])
           print(temp_color + response_strip + bcolors.ENDC)
         else:
