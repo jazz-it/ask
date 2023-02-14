@@ -142,7 +142,7 @@ OPENAI_API_KEY = config.OPENAI_API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
 
 while True:
-    prompt = "[" + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
+    prompt = bcolors.ENDC + "[" + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
     print(prompt)
     ask = ""
     note = ""
