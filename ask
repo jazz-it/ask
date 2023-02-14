@@ -36,7 +36,6 @@ class msg:
     NOW = "Time"
     ELAPSED = "Thinking:"
     SORRY = "I need more time to think but my CPUs seem quite busy now."
-    ERROR = "Oops! Something went wrong. Please try again in a few minutes."
     TOP = "^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^"
     NOTE = "Write your note below"
     BTM = "----------------8<-------------[ cut here ]------------------"
@@ -286,7 +285,6 @@ while True:
           for line in response_wrapped:
             print(temp_color + line + bcolors.ENDC)
     except Exception as e:
-      print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)
       print(bcolors.FAIL + str(e) + bcolors.ENDC)
       continue
 
