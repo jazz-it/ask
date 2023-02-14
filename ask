@@ -4,6 +4,7 @@ import openai  # python-openai
 import os, sys
 from datetime import datetime
 import config
+import textwrap
 from typing import ContextManager, Optional
 from alive_progress import alive_bar, config_handler
 
@@ -27,7 +28,6 @@ class msg:
     NOLVL = "Wrong input! Accepted values are [0-5]."
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
-    LOST = "Your bookmark has been lost. Bye."
     WRONG = "Please use [y]es or [N]o."
     EXIT = "Now check your bookmark if needed. Bye."
     RESUME = "Ok! Resuming..."
@@ -124,6 +124,20 @@ def show_creativity(lvl):
       progress_bar += "▢"
   return progress_bar
 
+# Save bookmark
+def save():
+  global bookmark, output_file_path, mistake
+  now = datetime.now()
+  current_time = now.strftime("%d.%m.%Y %H:%M:%S")
+  print(bcolors.WARNING + msg.SAVE + bcolors.ENDC)
+  try:
+      with open(output_file_path, 'a+', encoding='utf-8') as f:
+          f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + " ▲▲▲\n")
+          mistake = False
+          bookmark = ""
+  except IOError:
+      print(bcolors.FAIL + msg.E404 + bcolors.ENDC)
+
 file_path = os.path.abspath(__file__) # full path of this script
 dir_path = os.path.dirname(file_path) # full path of the directory of this script
 help_file_path = os.path.join(dir_path,'help.txt') # absolute file path to display help
@@ -209,16 +223,7 @@ while True:
         f.close()
         continue
       elif (askKeywordCheck == "save"):
-        now = datetime.now()
-        current_time = now.strftime("%d.%m.%Y %H:%M:%S")
-        print(bcolors.WARNING + msg.SAVE + bcolors.ENDC)
-        try:
-            with open(output_file_path, 'a+', encoding='utf-8') as f:
-                f.write(bookmark + "\n\n▲▲▲ " + msg.GEN + " " + current_time + " ▲▲▲\n")
-                mistake = False
-                bookmark = ""
-        except IOError:
-            print(bcolors.FAIL + msg.E404 + bcolors.ENDC)
+        save()
         continue
       elif (askKeywordCheck == "code"):
         code = True
@@ -237,13 +242,13 @@ while True:
         print(bcolors.WARNING + msg.LVL + bcolors.ENDC)
         continue
       else:
+        end = bcolors.FAIL + bcolors.BOLD + msg.CONFIRM + " " + bcolors.ENDC
         if (len(bookmark)>0) and (bookmark_displayed==0):
-          print(bcolors.FAIL + msg.WARNING + "\n" + bcolors.ENDC)
-          end = bcolors.FAIL + bcolors.BOLD + msg.CONFIRM + " " + bcolors.ENDC
+          save()
           while True:
               choice = input(end).lower()
               if choice in yes:
-                  print(bcolors.WARNING + msg.LOST + "\n" + bcolors.ENDC)
+                  print(bcolors.WARNING + msg.EXIT + "\n" + bcolors.ENDC)
                   exit()
               elif choice in no:
                   mistake = True
@@ -255,6 +260,7 @@ while True:
           exit()
         else:
           print(bcolors.WARNING + msg.RESUME + bcolors.ENDC)
+          mistake = False
           continue
 
     if lvl in (0,1):
@@ -267,13 +273,23 @@ while True:
 
     try:
       with spinner(bcolors.PROGRESS + "Thinking"):
+        term_size=os.get_terminal_size()
         response = openAIQuery(ask, temp)
-        print(temp_color + response + bcolors.ENDC)
-        # print("")
+        response_strip = str(response.strip())
+        print("")
+        if response_strip.count('\n')>1:
+          # print(temp_color + response_strip + bcolors.ENDC)
+          response_strip = '\n'.join(['\n'.join(textwrap.wrap(line, term_size.columns, break_long_words=False, replace_whitespace=False, drop_whitespace=False)) for line in response_strip.splitlines() if line.strip() != ' '])
+          print(temp_color + response_strip + bcolors.ENDC)
+        else:
+          response_wrapped = textwrap.wrap(response_strip, term_size.columns)
+          for line in response_wrapped:
+            print(temp_color + line + bcolors.ENDC)
     except Exception as e:
       print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)
+      print(bcolors.FAIL + str(e) + bcolors.ENDC)
       continue
 
     # Horizontal line
     # print(bcolors.OKBLUE + '─' * 64 + bcolors.ENDC)
-    print("")
+    # print("")
