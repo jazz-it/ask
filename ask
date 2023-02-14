@@ -57,6 +57,7 @@ class bcolors:
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
+    PROGRESS = '\033[90m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
@@ -262,16 +263,17 @@ while True:
       temp_color = bcolors.WARNING
     else:
       temp_color = bcolors.FAIL
-    config_handler.set_global(enrich_print=False)
+    config_handler.set_global(enrich_print=False, length=20, bar='bubbles')
 
     try:
-      with spinner("Thinking"):
+      with spinner(bcolors.PROGRESS + "Thinking"):
         response = openAIQuery(ask, temp)
         print(temp_color + response + bcolors.ENDC)
-        print("")
+        # print("")
     except Exception as e:
       print(bcolors.FAIL + msg.ERROR + bcolors.ENDC)
       continue
 
-    print(bcolors.OKBLUE + '─' * 64 + bcolors.ENDC)
-
+    # Horizontal line
+    # print(bcolors.OKBLUE + '─' * 64 + bcolors.ENDC)
+    print("")
