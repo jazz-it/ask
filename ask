@@ -24,11 +24,9 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
-    STATUS_CODE = "CODE"
-    WRAP = "Word-wrap mode: ON"
-    NOWRAP = "Word-wrap mode: OFF"
-    STATUS_WRAP = "WRAP"
-    LVL = "Done."
+    STATUS_CODE = "ᴄᴏᴅᴇ"
+    STATUS_WRAP = "ᴡʀᴀᴘ"
+    STATUS_LVL = "ʟᴠʟ"
     NOLVL = "Wrong input! Accepted values are [0-5]."
     CONFIRM = "Exit anyway [y/N]?"
     WRONG = "Please use [y]es or [N]o."
@@ -126,6 +124,15 @@ def show_creativity(lvl):
       progress_bar += "▢"
   return progress_bar
 
+def update_lvl():
+  global lvl, temp_color
+  if lvl in (0,1):
+    temp_color = bcolors.OKGREEN
+  elif lvl in (2,3):
+    temp_color = bcolors.WARNING
+  else:
+    temp_color = bcolors.FAIL
+
 # Save bookmark
 def save():
   global bookmark, output_file_path, mistake
@@ -139,6 +146,14 @@ def save():
           bookmark = ""
   except IOError:
       print(bcolors.FAIL + msg.E404 + bcolors.ENDC)
+
+# Print status
+def status():
+  global code, wrap, lvl, temp_color
+  status_code = bcolors.FAIL + "✗" + bcolors.ENDC if not code else bcolors.OKGREEN + "✓" + bcolors.ENDC
+  status_wrap = bcolors.FAIL + "✗" + bcolors.ENDC if not wrap else bcolors.OKGREEN + "✓" + bcolors.ENDC
+  print(bcolors.ENDC + msg.STATUS_LVL + "=" + temp_color + str(lvl) + " · " + bcolors.ENDC + status_code + " " + msg.STATUS_CODE + " · " + status_wrap + " " + msg.STATUS_WRAP)
+
 
 file_path = os.path.abspath(__file__) # full path of this script
 dir_path = os.path.dirname(file_path) # full path of the directory of this script
@@ -158,6 +173,8 @@ temp=0.2*lvl # Default level of creativity, converted for openAIQuery()
 
 OPENAI_API_KEY = config.OPENAI_API_KEY
 openai.api_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
+
+update_lvl()
 
 while True:
     prompt = bcolors.ENDC + "[" + show_creativity(lvl) + bcolors.ENDC + "] " + bcolors.BOLD + "ask ▾" + bcolors.ENDC
@@ -232,23 +249,23 @@ while True:
       elif (askKeywordCheck == "code"):
         code = True
         print(bcolors.WARNING + msg.CODE + bcolors.ENDC)
+        status()
         continue
       elif (askKeywordCheck == "nocode"):
         code = False
         print(bcolors.WARNING + msg.NOCODE + bcolors.ENDC)
+        status()
         continue
       elif (askKeywordCheck == "wrap"):
         wrap = True
-        print(bcolors.WARNING + msg.WRAP + bcolors.ENDC)
+        status()
         continue
       elif (askKeywordCheck == "nowrap"):
         wrap = False
-        print(bcolors.WARNING + msg.NOWRAP + bcolors.ENDC)
+        status()
         continue
       elif (askKeywordCheck == "status"):
-        status_code = bcolors.FAIL + "✗" + bcolors.ENDC if not code else bcolors.OKGREEN + "✓" + bcolors.ENDC
-        status_wrap = bcolors.FAIL + "✗" + bcolors.ENDC if not wrap else bcolors.OKGREEN + "✓" + bcolors.ENDC
-        print(status_code + " " + msg.STATUS_CODE + " · " + status_wrap + " " + msg.STATUS_WRAP)
+        status()
         continue
       elif (creativity_lvl is not False and (isinstance(creativity_lvl, int) and creativity_lvl < 0 or creativity_lvl > 5)):
         print(bcolors.FAIL + msg.NOLVL + bcolors.ENDC)
@@ -256,7 +273,8 @@ while True:
       elif (creativity_lvl is not False and isinstance(creativity_lvl, int) and 0 <= creativity_lvl <= 5):
         lvl = creativity_lvl
         temp = round(0.2 * lvl, 1)
-        print(bcolors.WARNING + msg.LVL + bcolors.ENDC)
+        update_lvl()
+        status()
         continue
       else:
         end = bcolors.FAIL + bcolors.BOLD + msg.CONFIRM + " " + bcolors.ENDC
@@ -280,12 +298,6 @@ while True:
           mistake = False
           continue
 
-    if lvl in (0,1):
-      temp_color = bcolors.OKGREEN
-    elif lvl in (2,3):
-      temp_color = bcolors.WARNING
-    else:
-      temp_color = bcolors.FAIL
     config_handler.set_global(enrich_print=False, length=20, bar='bubbles')
 
     # Get terminal size
