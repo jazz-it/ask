@@ -24,6 +24,8 @@ no = ['no', 'n', '']
 class msg:
     CODE = "SUBMIT = [Ctrl+D]"
     NOCODE = "SUBMIT = two empty lines or [Ctrl+D]"
+    WRAP = "Word-wrap mode: ON"
+    NOWRAP = "Word-wrap mode: OFF"
     LVL = "Done."
     NOLVL = "Wrong input! Accepted values are [0-5]."
     WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
@@ -145,8 +147,10 @@ output_file_path = os.path.join(dir_path,'output.txt') # absolute file path to d
 added = False
 mistake = False
 code = False
+wrap = False
 bookmark = ""
 bookmark_displayed = 0
+question_id = 0
 
 lvl=2        # Default level of creativity, temperature=0.4
 temp=0.2*lvl # Default level of creativity, converted for openAIQuery()
@@ -232,6 +236,14 @@ while True:
         code = False
         print(bcolors.WARNING + msg.NOCODE + bcolors.ENDC)
         continue
+      elif (askKeywordCheck == "wrap"):
+        wrap = True
+        print(bcolors.WARNING + msg.WRAP + bcolors.ENDC)
+        continue
+      elif (askKeywordCheck == "nowrap"):
+        wrap = False
+        print(bcolors.WARNING + msg.NOWRAP + bcolors.ENDC)
+        continue
       elif (creativity_lvl is not False and (isinstance(creativity_lvl, int) and creativity_lvl < 0 or creativity_lvl > 5)):
         print(bcolors.FAIL + msg.NOLVL + bcolors.ENDC)
         continue
@@ -270,23 +282,28 @@ while True:
       temp_color = bcolors.FAIL
     config_handler.set_global(enrich_print=False, length=20, bar='bubbles')
 
+    # Get terminal size
+    term_size=os.get_terminal_size()
+    question_id += 1
+
     try:
       with spinner(bcolors.PROGRESS + "Thinking"):
-        term_size=os.get_terminal_size()
         response = openAIQuery(ask, temp)
         response_strip = str(response.strip())
         print("")
-        if response_strip.count('\n')>1:
-          response_strip = '\n'.join(['\n'.join(textwrap.wrap(line, term_size.columns, break_long_words=False, replace_whitespace=False, drop_whitespace=False)) for line in response_strip.splitlines() if line.strip() != ' '])
+        if not wrap:
           print(temp_color + response_strip + bcolors.ENDC)
         else:
-          response_wrapped = textwrap.wrap(response_strip, term_size.columns)
-          for line in response_wrapped:
-            print(temp_color + line + bcolors.ENDC)
+          if '\n' in response_strip:
+            response_strip = '\n'.join(['\n'.join(textwrap.wrap(line, term_size.columns, break_long_words=False, replace_whitespace=False, drop_whitespace=False)) for line in response_strip.splitlines() if line.strip() != ' '])
+            print(temp_color + response_strip + bcolors.ENDC)
+          else:
+            response_wrapped = textwrap.wrap(response_strip, term_size.columns)
+            for line in response_wrapped:
+              print(temp_color + line + bcolors.ENDC)
     except Exception as e:
       print(bcolors.FAIL + str(e) + bcolors.ENDC)
       continue
 
     # Horizontal line
-    # print(bcolors.OKBLUE + '─' * 64 + bcolors.ENDC)
-    # print("")
+    print(bcolors.PROGRESS + '─'*(int(term_size.columns)-1-len(str(question_id))) + " " + str(question_id) + bcolors.ENDC)
