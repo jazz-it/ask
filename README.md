@@ -25,9 +25,9 @@ Create your KEY here: https://beta.openai.com/account/api-keys
 * CODE   - disables two empty lines to trigger submission
 * NOCODE - enables two empty lines to trigger submission (default)
 * WRAP   - enables word-wrap mode, which results with a new line at the end of each line
-* NOWRAP - disables word-wrap, which is suitable for copy/paste from terminal
-* STATUS - prints status of all modes of operation (CODE, WRAP)
-* LVLn   - adjusts the level of creativity, `n` should be any integer [0-5]
+* NOWRAP - disables word-wrap, which is suitable for copying text from terminal
+* STATUS - prints statuses of all modes of operation (CODE, WRAP)
+* LVLn   - adjusts the level of creativity, `n` = any integer [0-5]
 * SAVE   - saves an entire bookmark to `output.txt`
 * EXIT   - same as any other input less than 7 characters long - ends the application
 

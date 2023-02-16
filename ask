@@ -30,7 +30,6 @@ class msg:
     STATUS_WRAP = "WRAP"
     LVL = "Done."
     NOLVL = "Wrong input! Accepted values are [0-5]."
-    WARNING = "ATTENTION!! You created a bookmark without saving it.\nType LIST or SAVE to prevent data loss."
     CONFIRM = "Exit anyway [y/N]?"
     WRONG = "Please use [y]es or [N]o."
     EXIT = "Now check your bookmark if needed. Bye."
