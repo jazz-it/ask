@@ -152,7 +152,7 @@ def status():
   global code, wrap, lvl, temp_color
   status_code = bcolors.FAIL + "✗" + bcolors.ENDC if not code else bcolors.OKGREEN + "✓" + bcolors.ENDC
   status_wrap = bcolors.FAIL + "✗" + bcolors.ENDC if not wrap else bcolors.OKGREEN + "✓" + bcolors.ENDC
-  print(bcolors.ENDC + msg.STATUS_LVL + "=" + temp_color + str(lvl) + " · " + bcolors.ENDC + status_code + " " + msg.STATUS_CODE + " · " + status_wrap + " " + msg.STATUS_WRAP)
+  print(bcolors.ENDC + msg.STATUS_LVL + "=" + temp_color + str(lvl) + bcolors.ENDC + " · " + bcolors.ENDC + status_code + " " + msg.STATUS_CODE + " · " + status_wrap + " " + msg.STATUS_WRAP)
 
 
 file_path = os.path.abspath(__file__) # full path of this script
