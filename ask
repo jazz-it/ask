@@ -168,7 +168,7 @@ bookmark = ""
 bookmark_displayed = 0
 question_id = 0
 
-lvl=2        # Default level of creativity, temperature=0.4
+lvl=1        # Default level of creativity, temperature=0.4
 temp=0.2*lvl # Default level of creativity, converted for openAIQuery()
 
 OPENAI_API_KEY = config.OPENAI_API_KEY
